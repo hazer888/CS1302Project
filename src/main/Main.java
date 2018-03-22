@@ -41,115 +41,6 @@ import java.util.List;
 
 public class Main extends Application {
 
-    private static final int NUM_OF_PAIRS = 8;
-    private static final int NUM_PER_ROW = 4;
-
-    private Tile selected = null;
-    private int clickCount = 2;
-
-    private Parent createContent() {
-        Pane root = new Pane();
-
-        root.setPrefSize(400, 400);
-        root.setPadding(new Insets(20,20,20,20));
-
-        char c = 'A';
-        List<Tile> tiles = new ArrayList<>();
-        for (int i = 0; i < NUM_OF_PAIRS; i++) {
-            tiles.add(new Tile(String.valueOf(c)));
-            tiles.add(new Tile(String.valueOf(c)));
-            c++;
-        }
-
-        Collections.shuffle(tiles);
-
-        for (int i = 0; i < tiles.size(); i++) {
-            Tile tile = tiles.get(i);
-            tile.setTranslateX(100 * (i % NUM_PER_ROW));
-            tile.setTranslateY(100 * (i / NUM_PER_ROW));
-            root.getChildren().add(tile);
-        }
-
-        return root;
-
-
-    }
-
-    private class Tile extends StackPane {
-        private Text text = new Text();
-
-        public Tile(String value) {
-            Rectangle border = new Rectangle(100, 100);
-            border.setFill(null);
-            border.setStroke(Color.DARKBLUE);
-
-            text.setText(value);
-            text.setFont(Font.font(30));
-
-            setAlignment(Pos.CENTER);
-            getChildren().addAll(border, text);
-
-            setOnMouseClicked(this::handleMouseClick);
-            close();
-        }
-
-
-
-        public void handleMouseClick(MouseEvent event) {
-            if (isOpen() || clickCount == 0)
-                return;
-
-            clickCount--;
-
-            if (selected == null) {
-                selected = this;
-                open(() -> {});
-
-            }
-            else {
-                open(() -> {
-                    if (!hasSameValue(selected)) {
-                        selected.close();
-                        this.close();
-                    }
-
-                    selected = null;
-                    clickCount = 2;
-                });
-            }
-        }
-
-
-
-        public boolean isOpen() {
-            return text.getOpacity() == 1;
-        }
-
-
-        public void open(Runnable action) {
-
-            FadeTransition ft = new FadeTransition(Duration.seconds(0.5), text);
-            ft.setToValue(1);
-            ft.setOnFinished(e -> action.run());
-            ft.play();
-        }
-
-        public void close() {
-            FadeTransition ft = new FadeTransition(Duration.seconds(0.5), text);
-            ft.setToValue(0);
-            ft.play();
-        }
-
-        public boolean hasSameValue(Tile other) {
-            return text.getText().equals(other.text.getText());
-        }
-
-
-
-    }
-
-
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -165,14 +56,13 @@ public class Main extends Application {
 
         // Add 3 buttons to the HBox
         Button homeButton = new Button("Home");
-        Button authorButton = new Button("Author");
+        Button authorButton = new Button("Author1");
         Button gameButton = new Button("Play Game");
         topMenu.getChildren().addAll(homeButton, authorButton, gameButton);
 
         // Border Pane is created and topMenu is set to top view
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(topMenu);
-
 
         // Set title for stage
         primaryStage.setTitle("PROJECT");
@@ -210,7 +100,8 @@ public class Main extends Application {
                                                           "\na pair for each card. The" +
                                                           "\nPlayer flips over two cards." +
                                                           "\nIf they match, then they stay" +
-                                                          "\noverturned, otherwise they " +
+                                                          "\noverturned and the player " +
+                                                          "\ngets 1 point, otherwise they " +
                                                           "\nflip back. The game is over" +
                                                           "\nafter all the cards are turned.");
 
@@ -257,7 +148,7 @@ public class Main extends Application {
 
 
         // Create welcome message using labels
-        Label welcome = new Label("Welcome to my " + "\nproject CS 1302/09!");
+        Label welcome = new Label("Welcome to our " + "\nproject CS 1302/09!");
         welcome.setAlignment(Pos.CENTER);
         welcome.setFont(Font.font("Trebuchet MS", 35));
 
@@ -351,5 +242,114 @@ public class Main extends Application {
         primaryStage.show();
 
     }
+
+    private static final int NUM_OF_PAIRS = 8;
+    private static final int NUM_PER_ROW = 4;
+
+    private Tile selected = null;
+    private int clickCount = 2;
+
+    private Parent createContent() {
+        Pane root = new Pane();
+
+        root.setPrefSize(400, 400);
+        root.setPadding(new Insets(20,20,20,20));
+
+        char c = 'A';
+        List<Tile> tiles = new ArrayList<>();
+        for (int i = 0; i < NUM_OF_PAIRS; i++) {
+            tiles.add(new Tile(String.valueOf(c)));
+            tiles.add(new Tile(String.valueOf(c)));
+            c++;
+        }
+
+        Collections.shuffle(tiles);
+
+        for (int i = 0; i < tiles.size(); i++) {
+            Tile tile = tiles.get(i);
+            tile.setTranslateX(100 * (i % NUM_PER_ROW));
+            tile.setTranslateY(100 * (i / NUM_PER_ROW));
+            root.getChildren().add(tile);
+        }
+
+        return root;
+
+
+    }
+
+    private class Tile extends StackPane {
+        private Text text = new Text();
+
+        public Tile(String value) {
+            Rectangle border = new Rectangle(100, 100);
+            border.setFill(null);
+            border.setStroke(Color.DARKBLUE);
+
+            text.setText(value);
+            text.setFont(Font.font(30));
+
+            setAlignment(Pos.CENTER);
+            getChildren().addAll(border, text);
+
+            setOnMouseClicked(this::handleMouseClick);
+            close();
+        }
+
+
+
+        public void handleMouseClick(MouseEvent event) {
+
+            if (isOpen() || clickCount == 0)
+                return;
+
+            clickCount--;
+
+            if (selected == null) {
+                selected = this;
+                open(() -> {});
+
+            }
+            else {
+                open(() -> {
+                    if (!hasSameValue(selected)) {
+                        selected.close();
+                        this.close();
+                    }
+
+                    selected = null;
+                    clickCount = 2;
+                });
+            }
+        }
+
+
+
+        public boolean isOpen() {
+            return text.getOpacity() == 1;
+        }
+
+
+        public void open(Runnable action) {
+
+            FadeTransition ft = new FadeTransition(Duration.seconds(0.5), text);
+            ft.setToValue(1);
+            ft.setOnFinished(e -> action.run());
+            ft.play();
+        }
+
+        public void close() {
+            FadeTransition ft = new FadeTransition(Duration.seconds(0.5), text);
+            ft.setToValue(0);
+            ft.play();
+        }
+
+        public boolean hasSameValue(Tile other) {
+            return text.getText().equals(other.text.getText());
+        }
+
+
+
+    }
+
 
 }
