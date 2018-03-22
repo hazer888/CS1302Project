@@ -10,4 +10,4 @@ Contains a main window/view that displays a welcome message to user. The main vi
 
 Description of the game:
 
-There is a board full of overturned cards. There is a pair for each card. The Player flips over two cards. If they match, then they stay overturned and the player gets 1 point, otherwise they flip back. The game is over after all the cards are matched.
+There is a board full of overturned cards. There is a pair for each card. The Player flips over two cards. If they match, then they stay overturned, otherwise they flip back. The game is over after all the cards are matched.
