@@ -34,7 +34,7 @@ import java.util.List;
  * Course: CS 1302
  * Section: 09
  * Professor: Carlos Cepeda Mora
- * Name: Hayes Roach
+ * Name: Hayes Roach & Eyosias Belay
  * Project: Matching Game
  */
 
@@ -54,11 +54,12 @@ public class Main extends Application {
         topMenu.setAlignment(Pos.CENTER);
         topMenu.setStyle("-fx-background-color: #FFB84D");
 
-        // Add 3 buttons to the HBox
+        // Add 4 buttons to the HBox
         Button homeButton = new Button("Home");
-        Button authorButton = new Button("Author1");
+        Button hayesButton = new Button("Hayes");
+        Button belayButton = new Button("Eyosias");
         Button gameButton = new Button("Play Game");
-        topMenu.getChildren().addAll(homeButton, authorButton, gameButton);
+        topMenu.getChildren().addAll(homeButton, hayesButton, belayButton, gameButton);
 
         // Border Pane is created and topMenu is set to top view
         BorderPane borderPane = new BorderPane();
@@ -76,8 +77,11 @@ public class Main extends Application {
         // Set borderPane's center window to welcome view
         borderPane.setCenter(welcomeView);
 
-        // Create a VBox for author view
-        VBox authorView = new VBox();
+        // Create a VBox for hayes view
+        VBox hayesView = new VBox();
+
+        // Create a VBox for belay view
+        VBox belayView = new VBox();
 
         // Create a transition for switching between different views
         FadeTransition viewTransition = new FadeTransition(Duration.millis(1000), borderPane);
@@ -88,32 +92,26 @@ public class Main extends Application {
 
         // Create a VBox to be used in right pane of borderPane
         VBox rightGamePane = new VBox();
-        rightGamePane.setPadding(new Insets(0,5,0,5));
+        rightGamePane.setPadding(new Insets(50,5,0,5));
         rightGamePane.setSpacing(100);
         rightGamePane.setStyle("-fx-background-color: #FFFFFF");
 
-        // Create score, play again button, and how to play label
-        Label score = new Label("Score: ");
+        // Create play again button, and how to play label
+
         Button playAgainButton = new Button("Play Again");
         Label howToPlayLabel = new Label("How to Play:\n\nThere is a board full of" +
                                                           "\noverturned cards. There is" +
                                                           "\na pair for each card. The" +
                                                           "\nPlayer flips over two cards." +
                                                           "\nIf they match, then they stay" +
-                                                          "\noverturned and the player " +
-                                                          "\ngets 1 point, otherwise they " +
+                                                          "\noverturned, otherwise they" +
                                                           "\nflip back. The game is over" +
                                                           "\nafter all the cards are turned.");
 
         rightGamePane.setMaxWidth(210);
 
         // Add score, play again button, and how to play label to rightGamePane
-        rightGamePane.getChildren().addAll(score, playAgainButton, howToPlayLabel);
-
-        score.setPadding(new Insets(30,0,0,0));
-        score.setFont(Font.font("Trebuchet MS", 35));
-
-
+        rightGamePane.getChildren().addAll(playAgainButton, howToPlayLabel);
 
         // When home button is clicked, the center pane is switched to the home/welcome view
         homeButton.setOnAction(event -> {
@@ -125,9 +123,15 @@ public class Main extends Application {
 
 
         // When author button is clicked, the center pane is switched to the author view
-        authorButton.setOnAction(event -> {
+        hayesButton.setOnAction(event -> {
             viewTransition.play();
-            borderPane.setCenter(authorView);
+            borderPane.setCenter(hayesView);
+            borderPane.setRight(null);
+        });
+
+        belayButton.setOnAction(event -> {
+            viewTransition.play();
+            borderPane.setCenter(belayView);
             borderPane.setRight(null);
         });
 
@@ -179,21 +183,20 @@ public class Main extends Application {
 
 
 
-        // ************************ Author View Info ************************
+        // ************************ Hayes View Info ************************
 
-        authorView.setAlignment(Pos.TOP_CENTER);
-        authorView.setStyle("-fx-background-color: #FFFFFF");
+        hayesView.setAlignment(Pos.TOP_CENTER);
+        hayesView.setStyle("-fx-background-color: #FFFFFF");
 
         // Add picture, education status, hobbies using labels
-        Label aboutMe = new Label("About Me");
+        Label aboutHayes = new Label("About Hayes");
 
         ImageView hayes = new ImageView(new Image("https://scontent-atl3-1.xx.fbcdn.net/v/t1.0-9/18424040_10211518954742717_3045106215941621213_n.jpg?_nc_cat=0&oh=1076241d7d1dfd3fda720f065f048d75&oe=5B47A5F0"));
         hayes.setPreserveRatio(true);
         hayes.setFitWidth(200);
 
-
-        aboutMe.setPadding(new Insets(20, 0, 20, 0));
-        aboutMe.setFont(Font.font("Trebuchet MS", 35));
+        aboutHayes.setPadding(new Insets(20, 0, 20, 0));
+        aboutHayes.setFont(Font.font("Trebuchet MS", 35));
         Label educationStatus = new Label("Education Status: Sophomore");
         educationStatus.setFont(Font.font("Trebuchet MS", 20));
         educationStatus.setPadding(new Insets(10,0,0,0));
@@ -234,7 +237,71 @@ public class Main extends Application {
         videoPlay.setAlignment(Pos.CENTER);
 
         // Add all nodes to author view
-        authorView.getChildren().addAll(aboutMe, hayes, educationStatus, major, hobbies, mediaView, videoPlay);
+        hayesView.getChildren().addAll(aboutHayes, hayes, educationStatus, major, hobbies, mediaView, videoPlay);
+
+        // ************************ Belay View Info ************************
+
+        belayView.setAlignment(Pos.TOP_CENTER);
+        hayesView.setStyle("-fx-background-color: #FFFFFF");
+
+        // Add picture, education status, hobbies using labels
+        Label aboutBelay = new Label("About Eyosias");
+
+        ImageView belay = new ImageView(new Image("https://scontent-atl3-1.xx.fbcdn.net/v/t1.0-9/17861848_1414836878566980_4998784671682070873_n.jpg?oh=3a3be5b02f5d8fb286c894df74ec4db4&oe=5B46589C"));
+        belay.setPreserveRatio(true);
+        belay.setFitWidth(200);
+
+
+        aboutBelay.setPadding(new Insets(20, 0, 20, 0));
+        aboutBelay.setFont(Font.font("Trebuchet MS", 35));
+        Label belayEducationStatus = new Label("Education Status: Sophomore");
+        belayEducationStatus.setFont(Font.font("Trebuchet MS", 20));
+        belayEducationStatus.setPadding(new Insets(10,0,0,0));
+        Label belayMajor = new Label("Major: Software Engineering");
+        belayMajor.setFont(Font.font("Trebuchet MS", 20));
+        Label belayHobbies = new Label("Hobbies: Watch Netflix, play PS4");
+        belayHobbies.setFont(Font.font("Trebuchet MS", 20));
+        belayHobbies.setPadding(new Insets(0, 0, 20, 0));
+
+        // Create media player for introduction
+        Media belayMedia = new Media(new File("src/main/textures/belay.mp4").toURI().toString());
+
+        MediaPlayer mediaPlayer2 = new MediaPlayer(belayMedia);
+        MediaView mediaView2 = new MediaView(mediaPlayer2);
+
+        // Create media player play button
+        Button playButton2 = new Button("Play >");
+
+
+        // When play button is pressed, the video will play
+        playButton2.setOnAction(event -> {
+            mediaPlayer2.play();
+        });
+
+        // Create media player pause button
+        Button pauseButton2 = new Button("Pause ||");
+
+        // When play button is pressed, the video will pause
+        pauseButton2.setOnAction(event -> {
+            mediaPlayer2.pause();
+        });
+
+        mediaView2.setFitWidth(300);
+
+        // Put media player buttons into HBox
+        HBox videoPlay2 = new HBox();
+        videoPlay2.getChildren().addAll(playButton2, pauseButton2);
+        videoPlay2.setPadding(new Insets(10, 0, 0, 0));
+        videoPlay2.setAlignment(Pos.CENTER);
+
+        // Add all nodes to author view
+        belayView.getChildren().addAll(aboutBelay, belay, belayEducationStatus, belayMajor, belayHobbies, mediaView2, videoPlay2);
+
+        ImageView belayImage = new ImageView(new Image("https://scontent-atl3-1.xx.fbcdn.net/v/t1.0-9/17861848_1414836878566980_4998784671682070873_n.jpg?oh=3a3be5b02f5d8fb286c894df74ec4db4&oe=5B46589C"));
+        belayImage.setPreserveRatio(true);
+        belayImage.setFitWidth(200);
+
+
 
 
         Scene scene = new Scene(borderPane, 640, 720);
