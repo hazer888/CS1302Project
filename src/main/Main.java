@@ -242,7 +242,7 @@ public class Main extends Application {
         // ************************ Belay View Info ************************
 
         belayView.setAlignment(Pos.TOP_CENTER);
-        hayesView.setStyle("-fx-background-color: #FFFFFF");
+        belayView.setStyle("-fx-background-color: #FFFFFF");
 
         // Add picture, education status, hobbies using labels
         Label aboutBelay = new Label("About Eyosias");
@@ -413,7 +413,6 @@ public class Main extends Application {
         public boolean hasSameValue(Tile other) {
             return text.getText().equals(other.text.getText());
         }
-
 
 
     }
