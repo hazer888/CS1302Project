@@ -21,7 +21,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -41,11 +40,12 @@ import java.util.List;
 
 public class Main extends Application {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         launch(args);
     }
 
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
+
 
         // HBox is created for horizontal menu
         HBox topMenu = new HBox();
@@ -138,7 +138,7 @@ public class Main extends Application {
         // When play game button is clicked, the center pane is switched to the game view
         gameButton.setOnAction(event -> {
             viewTransition.play();
-            borderPane.setCenter(createContent());
+            borderPane.setCenter(createGameContent());
             borderPane.setRight(rightGamePane);
 
         });
@@ -146,7 +146,7 @@ public class Main extends Application {
         // When play again button is clicked, the center pane is reset
         playAgainButton.setOnAction(event -> {
             viewTransition.play();
-            borderPane.setCenter(createContent());
+            borderPane.setCenter(createGameContent());
             borderPane.setRight(rightGamePane);
         });
 
@@ -157,7 +157,7 @@ public class Main extends Application {
         welcome.setFont(Font.font("Trebuchet MS", 35));
 
         // Create alternating fade transition animation for welcome message
-        FadeTransition ft = new FadeTransition(Duration.millis(3000), welcome);
+        FadeTransition ft = new FadeTransition(Duration.millis(2000), welcome);
         ft.setFromValue(1.0);
         ft.setToValue(0.1);
         ft.setCycleCount(Timeline.INDEFINITE);
@@ -302,68 +302,96 @@ public class Main extends Application {
         belayImage.setFitWidth(200);
 
 
-
-
-        Scene scene = new Scene(borderPane, 640, 720);
+        // Creates new scene
+        Scene scene = new Scene(borderPane, 800, 675);
         primaryStage.setScene(scene);
         primaryStage.show();
 
     }
 
-    private static final int NUM_OF_PAIRS = 8;
+
     private static final int NUM_PER_ROW = 4;
 
+    // Default selected value set to null
     private Tile selected = null;
     private int clickCount = 2;
 
-    private Parent createContent() {
+    private Parent createGameContent() {
         Pane root = new Pane();
 
-        root.setPrefSize(400, 400);
-        root.setPadding(new Insets(20,20,20,20));
-
-        char c = 'A';
+        // Create list of tiles and add images to them
         List<Tile> tiles = new ArrayList<>();
-        for (int i = 0; i < NUM_OF_PAIRS; i++) {
-            tiles.add(new Tile(String.valueOf(c)));
-            tiles.add(new Tile(String.valueOf(c)));
-            c++;
-        }
 
+            Image spongebob = new Image("https://orig00.deviantart.net/1d75/f/2009/220/b/0/spongebob_4_150x150_png_by_somemilk.png");
+            tiles.add(new Tile((spongebob)));
+            tiles.add(new Tile((spongebob)));
+
+            Image homer = new Image("http://www.blindfiveyearold.com/wp-content/uploads/2011/01/homer-simpson-150x150.jpg");
+            tiles.add(new Tile((homer)));
+            tiles.add(new Tile((homer)));
+
+            Image nyon = new Image("https://dieckster.com/wp-content/uploads/2013/07/nyan-cat-150x150.gif");
+            tiles.add(new Tile((nyon)));
+            tiles.add(new Tile((nyon)));
+
+            Image knight = new Image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzlbhFz23MJMaQrb7Lda9F_AaCyF-fGJeiIlc-aPcM3u-uMFzK");
+            tiles.add(new Tile((knight)));
+            tiles.add(new Tile((knight)));
+
+            Image fox = new Image("https://www.prri.org/wp-content/uploads/2016/04/538-150x150.jpg");
+            tiles.add(new Tile((fox)));
+            tiles.add(new Tile((fox)));
+
+            Image happyFace = new Image("http://ellensdelight.com/images/happy-face-happyface-smiley-150x150.gif");
+            tiles.add(new Tile((happyFace)));
+            tiles.add(new Tile((happyFace)));
+
+            Image bulldog = new Image("https://upload.wikimedia.org/wikipedia/commons/5/56/Buldog-150x150.jpg");
+            tiles.add(new Tile((bulldog)));
+            tiles.add(new Tile((bulldog)));
+
+            Image playstation = new Image("http://ksassets.timeincuk.net/wp/uploads/sites/54/2013/10/PlayStation-1-1-150x150.jpg");
+            tiles.add(new Tile((playstation)));
+            tiles.add(new Tile((playstation)));
+
+
+        // Shuffle tiles in list
         Collections.shuffle(tiles);
+
 
         for (int i = 0; i < tiles.size(); i++) {
             Tile tile = tiles.get(i);
-            tile.setTranslateX(100 * (i % NUM_PER_ROW));
-            tile.setTranslateY(100 * (i / NUM_PER_ROW));
+            tile.setTranslateX(150 * (i % NUM_PER_ROW));
+            tile.setTranslateY(150 * (i / NUM_PER_ROW));
             root.getChildren().add(tile);
         }
 
         return root;
-
-
     }
 
-    private class Tile extends StackPane {
-        private Text text = new Text();
 
-        public Tile(String value) {
-            Rectangle border = new Rectangle(100, 100);
+    private class Tile extends StackPane {
+        private ImageView imageView = new ImageView();
+
+        // Creates tile using constructor
+        public Tile(Image image) {
+            Rectangle border = new Rectangle(150, 150);
             border.setFill(null);
             border.setStroke(Color.DARKBLUE);
 
-            text.setText(value);
-            text.setFont(Font.font(30));
+            // Set Images to ImageViews
+            imageView.setImage(image);
 
             setAlignment(Pos.CENTER);
-            getChildren().addAll(border, text);
+            getChildren().addAll(border, imageView);
 
+            // When mouse is clicked the click is handled in the method handleMouseClick
             setOnMouseClicked(this::handleMouseClick);
             close();
         }
 
 
-
+        // Handles the mouse click events
         public void handleMouseClick(MouseEvent event) {
 
             if (isOpen() || clickCount == 0)
@@ -390,30 +418,37 @@ public class Main extends Application {
         }
 
 
+        // Sets the open tiles opacity to 1 (fully visible)
 
         public boolean isOpen() {
-            return text.getOpacity() == 1;
+            return imageView.getOpacity() == 1;
         }
 
 
+
+        // Creates a open transition
+
         public void open(Runnable action) {
 
-            FadeTransition ft = new FadeTransition(Duration.seconds(0.5), text);
+            FadeTransition ft = new FadeTransition(Duration.seconds(0.5), imageView);
             ft.setToValue(1);
             ft.setOnFinished(e -> action.run());
             ft.play();
         }
 
+        // Creates a closing transition
+
         public void close() {
-            FadeTransition ft = new FadeTransition(Duration.seconds(0.5), text);
+            FadeTransition ft = new FadeTransition(Duration.seconds(0.5), imageView);
             ft.setToValue(0);
             ft.play();
         }
 
-        public boolean hasSameValue(Tile other) {
-            return text.getText().equals(other.text.getText());
-        }
+        // Determines if the tiles selected are equal to each other
 
+        public boolean hasSameValue(Tile other) {
+            return imageView.getImage().equals(other.imageView.getImage());
+        }
 
     }
 
